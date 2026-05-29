@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    background:transparent;
+    font-family:'Press Start 2P', cursive;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:10px;
+}
+
+.clock{
+    width:min(92vw, 420px);
+    aspect-ratio:1.9/1;
+
+    background:#000;
+    border-radius:clamp(18px,4vw,28px);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    color:#e7d3a8;
+}
+
+.time-row{
+    display:flex;
+    align-items:flex-end;
+    gap:0.35em;
+}
+
+.main-time{
+    font-size:clamp(2.5rem, 9vw, 4.2rem);
+    line-height:1;
+    letter-spacing:0.05em;
+}
+
+.sec{
+    font-size:clamp(0.9rem, 3vw, 1.4rem);
+    margin-bottom:0.4em;
+    opacity:0.9;
+}
+
+.pm{
+    font-size:clamp(0.9rem, 3vw, 1.4rem);
+    margin-bottom:0.4em;
+    opacity:0.9;
+}
+
+.date{
+    margin-top:clamp(20px,5vw,38px);
+    font-size:clamp(0.7rem, 2.4vw, 1.1rem);
+    letter-spacing:0.12em;
+    text-align:center;
+    opacity:0.9;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="clock">
+
+    <div class="time-row">
+        <div class="main-time" id="mainTime">01:08</div>
+        <div class="sec" id="seconds">:28</div>
+        <div class="pm" id="ampm">PM</div>
+    </div>
+
+    <div class="date" id="date">
+        FRIDAY, 29 MAY
+    </div>
+
+</div>
+
+<script>
+
+function updateClock(){
+
+    const now = new Date();
+
+    let hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    const hh = String(hours).padStart(2,'0');
+    const mm = String(minutes).padStart(2,'0');
+    const ss = String(seconds).padStart(2,'0');
+
+    const day = now.toLocaleDateString('en-US',{
+        weekday:'long'
+    }).toUpperCase();
+
+    const date = now.toLocaleDateString('en-US',{
+        day:'2-digit',
+        month:'short'
+    }).toUpperCase();
+
+    document.getElementById('mainTime').innerText = `${hh}:${mm}`;
+    document.getElementById('seconds').innerText = `:${ss}`;
+    document.getElementById('ampm').innerText = ampm;
+    document.getElementById('date').innerText = `${day}, ${date}`;
+}
+
+updateClock();
+setInterval(updateClock,1000);
+
+</script>
+
+</body>
+</html>
